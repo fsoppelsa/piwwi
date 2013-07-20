@@ -1,0 +1,20 @@
+{
+  "name": "piwwi",
+  "version": "0.0.1",
+  "description": "A JSON blog with Mongod comments, developed to run on OpenShift",
+  "main": "index.js",
+  "scripts": {
+    "test": "none"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/fsoppelsa/piwwi.git"
+  },
+  "author": "Fabrizio Soppelsa",
+  "license": "BSD",
+  "readmeFilename": "README.md",
+  "gitHead": "adc8fdecbe481e824d2a92afb606fd8258d675bb",
+  "bugs": {
+    "url": "https://github.com/fsoppelsa/piwwi/issues"
+  }
+}

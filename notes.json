@@ -1,0 +1,25 @@
+[
+  { "current" : "0002" },
+  { "why-node-js" : 
+    {
+      "jade": "0001",
+      "url": "why-node-js",
+      "title": "Who uses Node.js and why",
+      "subtitle": "Revolutioning your perception of www",
+      "date": "2013-06-19",
+      "keys": "node, javascript, www",
+      "published": "yes"
+    }
+  },
+  { "" : 
+    {
+      "jade": "",
+      "url": "",
+      "title": "",
+      "subtitle": "",
+      "date": "4",
+      "keys": "",
+      "published": ""
+    }
+  }
+]
