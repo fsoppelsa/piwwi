@@ -44,15 +44,15 @@ Then define a sample `notes.json` like the following and put into the Express ro
 Add the blog functions to your routes, for instance the posts list:
 
         app.get('/blog', function(req, res) {
-                  piwwi.blogIndex(res);
+                piwwi.blogIndex(res);
         }
 
 And the post:
 
         app.get('/blog/:title', function(req, res) {
-                  mytitle = req.params.title.toString();
-                  piwwi.blogPost(res, mytitle);
-        }
+                piwwi.blogPost(res, req.params.title.toString());
+        });
+
 
 The posts list is a view named `views/notes.jade` looking like:
 

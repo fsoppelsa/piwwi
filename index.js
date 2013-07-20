@@ -1,5 +1,10 @@
-var async   = require('async');
-var fs      = require('fs');
+var async         = require('async');
+var fs            = require('fs');
+var mongoose      = require('mongoose');
+
+var jsonfile      = 'notes.json';
+var viewdir       = 'notes';
+var relativeviews = '../../views';
 
 /*
  * @brief Renders notes index
@@ -10,7 +15,7 @@ exports.blogIndex = function(res) {
   async.waterfall([
     function readData(callback) {
       var list = Array();
-      fs.readFile('notes.json', 'utf8', function(err, data) {
+      fs.readFile(jsonfile, 'utf8', function(err, data) {
         if (err) { console.log("Error"); throw err; }
         obj = Array(JSON.parse(data));
         obj.forEach(function(entry) {
@@ -27,7 +32,7 @@ exports.blogIndex = function(res) {
       });
     },
     function renderIndex(list, callback) { 
-      res.render('notes', { title: 'Notes', articles: list});
+      res.render(viewdir, { title: 'Notes', articles: list});
     }
   ]);
 }
@@ -40,7 +45,7 @@ exports.blogIndex = function(res) {
  */
 exports.blogPost = function(res, mytitle) {
   var found = false;
-  fs.readFile('notes.json', 'utf8', function(err, data) {
+  fs.readFile(jsonfile, 'utf8', function(err, data) {
     if (err) { console.log("Error"); throw err; }
     obj = Array(JSON.parse(data));
     obj.forEach(function(entry) {
@@ -49,18 +54,19 @@ exports.blogPost = function(res, mytitle) {
           if (key == mytitle) {
             var jsonart = inner[key];
             if (jsonart['jade'] != undefined)
-      {
-        found = true;
-        // Gets home's views
-        var view = __dirname + '/../../views/notes/'+jsonart['jade']+'.jade';
-        res.render(view, { 
-          title: jsonart['title'],
-          _title: jsonart['title'],
-          _subtitle: jsonart['subtitle'],
-          _date: jsonart['date'],
-          _id: jsonart['jade'],
-          _comments: []
-        });
+            {
+              found = true;
+              var art = jsonart['jade'] + '.jade';
+              var view = [__dirname, relativeviews, viewdir, art].join('/');
+              res.render(view, { 
+                title: jsonart['title'],
+                _title: jsonart['title'],
+                _subtitle: jsonart['subtitle'],
+                _date: jsonart['date'],
+                _id: jsonart['jade'],
+                // TODO
+                _comments: []
+              });
       }
       /*
        * This works with Node 0.10.x
@@ -78,6 +84,15 @@ exports.blogPost = function(res, mytitle) {
       });
     });
     if (! found)
-      res.render(__dirname + '/views/404', { title: "404" });
+    {
+      var err404 = [__dirname, relativeviews, '404.jade'].join('/');
+      res.render(err404, { title: "404" });
+    }
   });
+}
+
+exports.blogComment = function(req, res) {
+  var _cname = req.body.cname;
+  var _ccomment = req.body.ccomment;
+  res.send('name = ' + _cname + " comment = " + _ccomment);
 }

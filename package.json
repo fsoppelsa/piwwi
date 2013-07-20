@@ -16,5 +16,9 @@
   "gitHead": "adc8fdecbe481e824d2a92afb606fd8258d675bb",
   "bugs": {
     "url": "https://github.com/fsoppelsa/piwwi/issues"
+  },
+  "dependencies": {
+	"async": "*",
+	"mongoose": "*"
   }
 }
