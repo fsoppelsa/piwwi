@@ -1,8 +1,8 @@
 {
   "name": "piwwi",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "A JSON blog with Mongod comments, developed to run on OpenShift",
-  "main": "index.js",
+  "main": "lib/piwwi.js",
   "scripts": {
     "test": "none"
   },
