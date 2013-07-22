@@ -66,7 +66,8 @@ The posts list is a view named `views/notes.jade` looking like:
               li #{article['title'] - #{article['subtitle']}
 
 Post views are organized in the `views/notes/` directory.
-Each post is a `jade` named as `xxxx.jade` and can have a *default layout* to be extended like:
+Each post is a `jade` named as `xxxx.jade` and can have a *default layout* to be extended with
+a comments logic iteration like:
 
         extends layout
 
@@ -77,8 +78,12 @@ Each post is a `jade` named as `xxxx.jade` and can have a *default layout* to be
 
           block note
 
-          if (_comments.length)
-            h3 Comments
+          if (_comments.length > 0)
+              hr
+              h3 Comments
+              each comment in _comments
+                h4 #{comment.username} on #{comment.insertdate} wrote
+                p= comment.comment
 
 
 TODO
