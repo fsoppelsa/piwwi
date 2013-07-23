@@ -1,9 +1,8 @@
 piwwi
 =====
 
-A JSON-based blog and Mongod-based comments, developed to run on Node.js Express (I use it on OpenShift).
-
-It's very primitive now.
+A JSON-based blogposts and Mongod-based comments, developed to run on
+Node.js Express (I use it on OpenShift).
 
 
 Getting started
@@ -11,82 +10,79 @@ Getting started
 
 Include it in your `server.js` or whatsoever entry point of your app:
 
-        var piwwi   = require('piwwi');
+    var piwwi   = require('piwwi');
 
-Then define a sample `notes.json` like the following and put into the Express root:
+Then connect to your Mongod instance with a string like:
 
-        [
-          { "current" : "0002" },
-          { "why-node-js" : 
-            {
-              "jade": "0001",
-              "url": "why-node-js",
-              "title": "Who uses Node.js and why",
-              "subtitle": "Revolutioning your perception of www",
-              "date": "2013-06-19",
-              "keys": "node, javascript, www",
-              "published": "yes"
-            }
-          },
-          { "" : 
-            {
-              "jade": "",
-              "url": "",
-              "title": "",
-              "subtitle": "",
-              "date": "4",
-              "keys": "",
-              "published": ""
-            }
-          }
-        ]
+    piwwi.mongod('mongodb://user:pass@127.0.0.1/Comments');
+
+Define a sample `notes.json` like the following and put into the
+Express root:
+
+    [
+      { "current" : "0002" },
+      { "why-node-js" : 
+        {
+          "jade": "0001",
+          "url": "why-node-js",
+          "title": "Who uses Node.js and why",
+          "subtitle": "Revolutioning your perception of www",
+          "date": "2013-06-19",
+          "keys": "node, javascript, www",
+          "published": "yes"
+        }
+      },
+      { "" : 
+        {
+          "jade": "",
+          "url": "",
+          "title": "",
+          "subtitle": "",
+          "date": "4",
+          "keys": "",
+          "published": ""
+        }
+      }
+    ]
 
 Add the blog functions to your routes, for instance the posts list:
 
-        app.get('/blog', function(req, res) {
-                piwwi.blogIndex(res);
-        }
+    app.get('/blog', function(req, res) {
+        piwwi.blogIndex(res);
+    }
 
 And the post:
 
-        app.get('/blog/:title', function(req, res) {
-                piwwi.blogPost(res, req.params.title.toString());
-        });
+    app.get('/blog/:title', function(req, res) {
+        piwwi.blogPost(res, req.params.title.toString());
+    });
 
 
-The posts list is a view named `views/notes.jade` looking like:
+The posts list is an example view you can find in
+`views/blog_index_example.jade`, while each post is a `jade` named as
+`xxxx.jade` (example in `views/blog_post_example.jade`).  Post views
+are organized by default in the `views/notes/` application directory.
 
-        extends layout
+You can configure in the header of `lib/piwwi.js`:
 
-        block content
-          h1 My blog
+The file containing the posts list:
 
-          each article in articles
-            if (article['published'] == 'yes')
-              li #{article['title'] - #{article['subtitle']}
+	var jsonfile      = 'blog.json';
 
-Post views are organized in the `views/notes/` directory.
-Each post is a `jade` named as `xxxx.jade` and can have a *default layout* to be extended with
-a comments logic iteration like:
+Your blog posts locations (so it's /views/blog/ in the example):
 
-        extends layout
+	var viewdir       = 'blog';
+	var relativeviews = '../../../views';
 
-        block content
-          h1= _title
-          h2= _subtitle
-          h3= _date
+The mongodb connection string:
 
-          block note
+	var mongoconf      = 'mongodb://127.0.0.1/Comments';
 
-          if (_comments.length > 0)
-              hr
-              h3 Comments
-              each comment in _comments
-                h4 #{comment.username} on #{comment.insertdate} wrote
-                p= comment.comment
 
 
 TODO
 ====
 
-* Comments
+* RSS
+* Flash messages
+* Play with Socket.IO

@@ -1,0 +1,56 @@
+extends layout
+
+block content
+  h1= _title
+  h2= _subtitle
+  h3= _date
+
+  block note
+
+  if (_comments.length > 0)
+    hr
+    h3 Comments
+    each comment in _comments
+      h4 #{comment.username} on #{comment.insertdate} wrote
+      p= comment.comment
+
+  hr
+  h3 Write a comment
+  form(id="myform"
+    method="post"
+    action="/comments/create"
+    enctype="application/x-www-form-urlencoded"
+    )
+
+    input(type="hidden"
+        id="post_url"
+        name="post_url"
+        value= _url
+        required)
+    p
+    input(type="hidden"
+        id="post_id"
+        name="post_id"
+        value= _id
+        required)
+    p
+    label Your name
+    br
+    input(type="text"
+          name="cname"
+          id="cname"
+          size="25"
+          value=""
+          required)
+    p
+    label Comment
+    br
+    textarea(name="ccomment"
+          id="ccomment"
+          rows="8"
+          cols="50"
+          value=""
+          required)
+    p
+    input(type="submit"
+          value="Submit comment")

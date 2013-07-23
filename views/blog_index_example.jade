@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1 Blog title
+  h2 Blog subtitle
+
+  each article in articles
+    if (article['published'] == 'yes')
+      li <p><a href="/blog/#{article['url']}"><strong>#{article['title']}</strong> [#{article['date']}]</a> <br /> #{article['subtitle']}</p>
