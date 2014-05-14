@@ -16,6 +16,10 @@ Then connect to your Mongod instance with a string like:
 
     piwwi.mongod('mongodb://user:pass@127.0.0.1/Comments');
 
+Or skip the connection if mongod not available:
+    
+    piwwi.mongod('', 'no');
+
 Define a sample `notes.json` like the following and put into the
 Express root:
 
